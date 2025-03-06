@@ -21,5 +21,5 @@ jobs:
 
       - name: Upload Files to Google Drive
         env:
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
         run: python src/sync_to_gdrive.py  # Replace with your Python script
