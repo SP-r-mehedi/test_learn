@@ -3,7 +3,7 @@ name: Upload to Google Drive
 on:
   push:
     branches:
-      - main  # Or your default branch
+      - main  # Trigger on push to main branch, adjust as necessary
 
 jobs:
   upload-to-drive:
@@ -12,9 +12,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Upload files to Google Drive
-      uses: google-github-actions/upload-cloud-storage@v0.8.0
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
       with:
-        path: other test/
+        credentials_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+    - name: Upload files to Google Drive
+      uses: google-github-actions/upload-cloud-storage@v2
+      with:
+        path: other test/  # Local path in your repository
         destination: gs://1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD/other test/
-        credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
