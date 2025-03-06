@@ -16,5 +16,5 @@ jobs:
       uses: google-github-actions/upload-cloud-storage@v0.8.0
       with:
         path: other test/
-        destination: '1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD'
+        destination: gs://1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD/other test/
         credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
