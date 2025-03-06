@@ -11,7 +11,7 @@ service = build('drive', 'v3', credentials=credentials)
 
 # Folder ID and file list to upload
 folder_id = '1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD'
-file_paths = ['list', 'of', 'file', 'paths']  # Adjust this list as needed
+file_paths = [README.md]  # Adjust this list as needed
 
 def upload_file(file_path, folder_id):
     file_metadata = {
