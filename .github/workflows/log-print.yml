@@ -23,5 +23,5 @@ jobs:
         pip install -r requirements.txt  # Assumes you have a requirements.txt
 
     - name: Run Python script
-      run: python Execute_Python.py  # Replace with your Python script
+      run: python src/Execute_Python.py  # Replace with your Python script
 
