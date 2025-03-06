@@ -17,4 +17,4 @@ jobs:
       with:
         path: other test/
         destination: '1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD'
-        credentials_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
