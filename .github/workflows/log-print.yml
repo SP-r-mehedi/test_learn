@@ -9,7 +9,6 @@ jobs:
   upload-to-drive:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout code
         - uses: actions/checkout@v2
     
         - name: Upload a file to Google Drive
