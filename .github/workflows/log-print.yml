@@ -3,8 +3,18 @@ name: Upload to Google Drive
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch, adjust as necessary
+      - main  # Or your default branch
 
 jobs:
   upload-to-drive:
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Upload files to Google Drive
+      uses: google-github-actions/upload-cloud-storage@v0.8.0
+      with:
+        path: other test/
+        destination: gdrive://1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
+        credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
