@@ -8,13 +8,3 @@ on:
 jobs:
   upload-to-drive:
     runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v2
-    
-        - name: Upload a file to Google Drive
-          uses: willo32/google-drive-upload-action@v1
-          with:
-            target: |-
-                other test/
-            credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-            parent_folder_id: '1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD'
