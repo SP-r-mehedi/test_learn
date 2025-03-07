@@ -1,4 +1,4 @@
-name: Upload to Google Drive
+name: Sync to Google Drive
 
 on:
   push:
@@ -6,14 +6,22 @@ on:
       - main
 
 jobs:
-  upload:
+  sync:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Upload to Google Drive
-        uses: Jodebu/upload-to-drive@master
-        with:
-          target: README.md
-          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_ENCODED }}
-          folder: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up rclone
+      run: |
+        sudo curl https://rclone.org/install.sh | sudo bash
+
+    - name: Decode GDrive credentials
+      run: |
+        echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_ENCODED }}" | base64 --decode > gdrive_service_account.json
+
+    - name: Sync files to Google Drive
+      run: |
+        rclone sync ./src drive:ProjectDocs --drive-root-folder-id 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD --drive-service-account-file gdrive_service_account.json
+
