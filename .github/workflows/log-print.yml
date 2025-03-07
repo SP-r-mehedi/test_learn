@@ -16,4 +16,4 @@ jobs:
         with:
           target: README.md
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          folder_id: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
+          folder: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
