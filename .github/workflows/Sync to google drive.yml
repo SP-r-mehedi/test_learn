@@ -26,5 +26,5 @@ jobs:
 
     - name: Sync files to Google Drive
       run: |
-        rclone sync ./src drive:ProjectDocs --drive-root-folder-id 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD --drive-service-account-file gdrive_service_account.json
+        rclone sync ./src drive: --drive-root-folder-id 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD --drive-service-account-file gdrive_service_account.json
       shell: /usr/bin/bash -e {0}
