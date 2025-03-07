@@ -15,5 +15,5 @@ jobs:
         uses: Jodebu/upload-to-drive@master
         with:
           target: README.md
-          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_ENCODED }}
           folder: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
