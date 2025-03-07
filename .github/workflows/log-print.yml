@@ -1,6 +1,6 @@
 name: Store readme in Drive
 on:
-  push: { branches: [master] }
+  push: { branches: [main] }
 jobs:
   buildAndTestForSomePlatforms:
     name: Upload readme to drive
