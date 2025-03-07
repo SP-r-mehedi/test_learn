@@ -1,25 +1,71 @@
-name: Sync Files to Google Drive
+name: Upload README.md to Google Drive
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger when pushing to the 'main' branch (change to your default branch)
 
 jobs:
-  upload-to-drive:
-    runs-on: ubuntu-latest  # Specifies the runner environment
+  upload_to_drive:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2  # Checks-out your repository
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      # Step 2: Set up Python and dependencies
       - name: Set up Python
-        uses: actions/setup-python@v2  # Sets up Python environment
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Specify the Python version
+          python-version: '3.x'
 
-      - name: Install Google Client Library
-        run: pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
 
-      - name: Upload Files to Google Drive
+      # Step 3: Upload README.md to Google Drive
+      - name: Upload README.md to Google Drive
         env:
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-        run: python src/sync_to_gdrive.py  # Replace with your Python script
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        run: |
+          # Decode the service account JSON from GitHub secret and save to a file
+          echo "${GOOGLE_SERVICE_ACCOUNT}" > service_account.json
+          
+          # Python script to upload README.md to Google Drive
+          python - <<EOF
+import os
+import json
+import google.auth
+from google.auth.transport.requests import Request
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+
+# Load the service account credentials
+credentials = service_account.Credentials.from_service_account_file(
+    'service_account.json', scopes=["https://www.googleapis.com/auth/drive.file"])
+
+# Build the Google Drive API client
+drive_service = build('drive', 'v3', credentials=credentials)
+
+# Specify the folder ID of your Google Drive folder
+folder_id = '1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD'
+
+# Upload the README.md file
+file_metadata = {
+    'name': 'README.md',
+    'parents': [folder_id]
+}
+
+media = MediaFileUpload('README.md', mimetype='text/markdown')
+
+# Create and upload the file
+file = drive_service.files().create(
+    body=file_metadata,
+    media_body=media,
+    fields='id'
+).execute()
+
+print(f"Uploaded README.md to Google Drive with ID: {file['id']}")
+EOF
