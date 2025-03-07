@@ -13,15 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up rclone
+    - name: Install rclone
       run: |
         sudo curl https://rclone.org/install.sh | sudo bash
 
-    - name: Decode GDrive credentials
+    - name: Decode GDrive credentials and configure rclone
+      env:
+        GDRIVE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_ENCODED }}
       run: |
-        echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_ENCODED }}" | base64 --decode > gdrive_service_account.json
+        echo "$GDRIVE_SERVICE_ACCOUNT_CREDENTIALS" | base64 --decode > gdrive_service_account.json
+        rclone config create drive drive service_account_file gdrive_service_account.json --non-interactive
 
     - name: Sync files to Google Drive
       run: |
         rclone sync ./src drive:ProjectDocs --drive-root-folder-id 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD --drive-service-account-file gdrive_service_account.json
-
+      shell: /usr/bin/bash -e {0}
