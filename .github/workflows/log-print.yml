@@ -1,34 +1,18 @@
-name: Upload README.md to Google Drive
-
+name: Store readme in Drive
 on:
-  push:
-    branches:
-      - main  # Trigger when pushing to the 'main' branch (change to your default branch)
-
+  push: { branches: [master] }
 jobs:
-  upload_to_drive:
+  buildAndTestForSomePlatforms:
+    name: Upload readme to drive
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
+      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      # Step 2: Set up Python and dependencies
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
-
-      # Step 3: Decode service account JSON from GitHub secret
-      - name: Decode Service Account JSON
-        run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT }}" > service_account.json
-
-      # Step 4: Run the Python script to upload the README.md to Google Drive
+      # Upload to Drive
       - name: Upload README.md to Google Drive
-        run: |
-          python src/sync_to_gdrive.py
+        uses: Jodebu/upload-to-drive@master
+        with:
+          target: README.md
+          credentials: secrets.GOOGLE_SERVICE_ACCOUNT
+          folder: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
