@@ -1,18 +1,19 @@
-name: Store readme in Drive
+name: Upload to Google Drive
+
 on:
-  push: { branches: [main] }
+  push:
+    branches:
+      - main
+
 jobs:
-  buildAndTestForSomePlatforms:
-    name: Upload readme to drive
+  upload:
     runs-on: ubuntu-latest
     steps:
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      # Upload to Drive
-      - name: Upload README.md to Google Drive
-        uses: Jodebu/upload-to-drive@master
+      - uses: actions/checkout@v2
+      
+      - name: Upload to Google Drive
+        uses: Jodebu/upload-to-drive@v1.1
         with:
           target: README.md
-          credentials: secrets.GOOGLE_SERVICE_ACCOUNT
-          folder: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
+          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          folder_id: 1tSEQGxJVkPZTYdGbDJtqGrqC8FQ9bnYD
